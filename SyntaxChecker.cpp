@@ -11,5 +11,5 @@ SyntaxChecker::SyntaxChecker()
 }
 SyntaxChecker::~SyntaxChecker()
 {
-
+  delete delimiterStack;
 }

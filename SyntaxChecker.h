@@ -5,6 +5,7 @@
 class SyntaxChecker
 {
 public:
+  GenStack<char> *delimiterStack = new GenStack<char>(15);
   SyntaxChecker();
   ~SyntaxChecker();
 

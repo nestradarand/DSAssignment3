@@ -1,19 +1,19 @@
-#ifndef GENERICSTACK_H
-#define GENERICSTACK_H
+#ifndef GENSTACK_H
+#define GENSTACK_H
 
 #include <iostream>
 
 template <typename T>
-class GenericStack
+class GenStack
 {
   int size;
   int top;
   T *theStack;
   T *tempArray;
 public:
-  GenericStack();
-  GenericStack(int i);
-  ~GenericStack();
+  GenStack();
+  GenStack(int i);
+  ~GenStack();
   bool isEmpty();
   void push(T object);
   T pop();
@@ -25,14 +25,14 @@ private:
 };
 
 template <typename T>
-GenericStack<T>::GenericStack()
+GenStack<T>::GenStack()
 {
   theStack = new T[100];
   size = 100;
   top = -1;
 }
 template <typename T>
-GenericStack<T>::GenericStack(int i)
+GenStack<T>::GenStack(int i)
 {
   if(i <0)
     throw std::runtime_error("Invalid value entered for stack size");
@@ -41,18 +41,18 @@ GenericStack<T>::GenericStack(int i)
   top = -1;
 }
 template <typename T>
-GenericStack<T>::~GenericStack()
+GenStack<T>::~GenStack()
 {
   delete theStack;
   delete tempArray;
 }
 template <typename T>
-bool GenericStack<T>::isEmpty()
+bool GenStack<T>::isEmpty()
 {
   return top == -1;
 }
 template <typename T>
-void GenericStack<T>::push(T object)
+void GenStack<T>::push(T object)
 {
   if(isFull())
   {
@@ -62,26 +62,26 @@ void GenericStack<T>::push(T object)
   theStack[++top] = object;
 }
 template <typename T>
-T GenericStack<T>::pop()
+T GenStack<T>::pop()
 {
   if(isEmpty())
     throw std::runtime_error("Cannot pop. Stack is empty.");
   return theStack[top--];
 }
 template <typename T>
-T GenericStack<T>::peek()
+T GenStack<T>::peek()
 {
   if(isEmpty())
     throw std::runtime_error("Cannot pop. Stack is empty.");
   return theStack[top];
 }
 template <typename T>
-bool GenericStack<T>::isFull()
+bool GenStack<T>::isFull()
 {
   return (top == size -1);
 }
 template <typename T>
-void GenericStack<T>::resizeArray(T* newArray,int size)
+void GenStack<T>::resizeArray(T* newArray,int size)
 {
   tempArray = new T[size*2];
   for(int i = 0; i<size; ++i)
@@ -90,7 +90,7 @@ void GenericStack<T>::resizeArray(T* newArray,int size)
   tempArray = NULL;
 }
 template <typename T>
-void GenericStack<T>::doubleSize()
+void GenStack<T>::doubleSize()
 {
   size = size*2;
 }
