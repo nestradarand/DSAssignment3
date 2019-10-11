@@ -9,5 +9,8 @@ public:
   SyntaxChecker();
   ~SyntaxChecker();
 
+  bool isLeftDelimiter(char letter);
+  bool isRightDelimiter(char letter);
+  char getOppositeDelimiter(char letter);
 };
 #endif
