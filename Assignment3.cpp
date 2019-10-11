@@ -33,6 +33,7 @@ int main(int argc, char** argv)
     while(inputStream >> x&& !flawed)
     {
       response = checker -> checkLineForErrors(x);
+      //return of zero indicates not errors were found
       if(response != '0')
       {
         cout << "\nError found in line " << lineCount<<endl;

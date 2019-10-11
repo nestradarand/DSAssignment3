@@ -42,7 +42,6 @@ char SyntaxChecker::getOppositeDelimiter(char letter)
 }
 char SyntaxChecker::checkLineForErrors(string inString)
 {
-  string returner;
   for(int i =0; i < inString.size();++i)
   {
     char current = inString[i];
@@ -51,6 +50,8 @@ char SyntaxChecker::checkLineForErrors(string inString)
     else if(isRightDelimiter(current))
     {
       char correctDelimiter =getOppositeDelimiter(current);
+      if(delimiterStack -> isEmpty())
+        return correctDelimiter;
       if(delimiterStack -> peek() == correctDelimiter)
         delimiterStack -> pop();
       else
