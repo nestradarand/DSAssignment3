@@ -1,4 +1,3 @@
-#include "GenStack.h"
 #include "SyntaxChecker.h"
 #include <iostream>
 #include <string>
@@ -10,66 +9,70 @@ int main(int argc, char** argv)
 {
   if(!argv[1])
   {
-    cout << "No file entered. Program aborted"<<endl;
+    cout << "No file entered. Program aborted..."<<endl;
     exit(1);
   }
-  GenStack<char> *delimiterStack = new GenStack<char>(15);
   SyntaxChecker *checker = new SyntaxChecker();
   string fileName = argv[1],x;
+  char response;
   ifstream inputStream;
-  string finalMessage = "No errors found.";
-  while(true)
+  bool going = true;
+  while(going)
   {
+    bool flawed = false;
     inputStream.open(fileName);
     //ensures successful input stream established
     //reference: stack overflow
     if(!inputStream)
     {
-      cout << "" << endl;
+      cout << "Error opening file..." << endl;
       exit(1);
     }
+    cout << "File Successfully opened..."<<endl;
     int lineCount = 1;
-    while(inputStream >> x)
+    while(inputStream >> x&& !flawed)
     {
-      for(int i =0; i < x.size();++i)
+      response = checker -> checkLineForErrors(x);
+      if(response != '0')
       {
-        char current = x[i];
-        if(checker -> isLeftDelimiter(current))
-          delimiterStack -> push(current);
-        if(checker -> isRightDelimiter(current))
-        {
-          char correctDelimiter = checker -> getOppositeDelimiter(current);
-          if(delimiterStack -> peek() == correctDelimiter)
-            delimiterStack -> pop();
-          else
-          {
-            finalMessage = ("Error found in line " + to_string(lineCount) +
-                            checker -> getOppositeDelimiter(delimiterStack ->peek()) + " expected.");
-            break;
-          }
-        }
+        cout << "\nError found in line " << lineCount<<endl;
+        cout << "Expected: " << response << endl;
+        flawed = true;
       }
       lineCount ++;
     }
-    if(!delimiterStack -> isEmpty())
+    //close file stream
+    inputStream.close();
+    if(!flawed)
     {
-      cout << "End of file reached; Missing the following:" << endl;
-      while(!delimiterStack -> isEmpty())
+      if(!checker ->allDone())
       {
-        char newMissing = checker -> getOppositeDelimiter(delimiterStack -> pop());
-        cout<< newMissing << endl;
-        break;
+        char correctDelimiter = checker -> getOppositeDelimiter(checker ->getLeftover());
+        cout << "\nEnd of file reached; missing: " << correctDelimiter << endl;
       }
+      else
+        cout << "\nNo delimiter errors found.\nDelimiter syntax correct for: "<<fileName << endl;
     }
-    else
+    cout << "Would you like to read in another file to check its delimiters"<<endl;
+    cout << "Type 'y' to continue or 'n' to stop: ";
+    cin >>response;
+    response = tolower(response);
+    //until y or n is entered, the user will be prompted until they answer yes or not to continuing
+    while(response != 'n'&&response != 'y')
     {
-      cout << finalMessage << endl;
-      break;
+      cout<< "Invalid command entered. Try again." <<endl;
+      cin >> response;
+    }
+    if(response == 'n') //breaks the initial while loop and ends programs
+      going  = false;
+    else if(response  == 'y')
+    {
+      //prompt user for new file name to read in
+      cout << "Type the name of the file you would like to use next: " <<endl;
+      cin >>fileName;
     }
   }
 
 
-
   delete checker;
-  delete delimiterStack;
 }

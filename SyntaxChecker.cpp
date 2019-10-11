@@ -40,3 +40,38 @@ char SyntaxChecker::getOppositeDelimiter(char letter)
   if(letter == ')')
     return '(';
 }
+char SyntaxChecker::checkLineForErrors(string inString)
+{
+  string returner;
+  for(int i =0; i < inString.size();++i)
+  {
+    char current = inString[i];
+    if(isLeftDelimiter(current))
+      delimiterStack -> push(current);
+    else if(isRightDelimiter(current))
+    {
+      char correctDelimiter =getOppositeDelimiter(current);
+      if(delimiterStack -> peek() == correctDelimiter)
+        delimiterStack -> pop();
+      else
+      {
+        return getOppositeDelimiter(delimiterStack -> peek());
+        break;
+      }
+    }
+  }
+  return '0';
+}
+bool SyntaxChecker::allDone()
+{
+  if(!delimiterStack -> isEmpty())
+    return false;
+  return true;
+}
+//returns what is leftover if anything in the stack
+char SyntaxChecker::getLeftover()
+{
+  if(delimiterStack -> isEmpty())
+    throw runtime_error("There is nothing left in the stack. All delimiters matched");
+  return delimiterStack -> pop();
+}
