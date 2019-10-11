@@ -75,3 +75,8 @@ char SyntaxChecker::getLeftover()
     throw runtime_error("There is nothing left in the stack. All delimiters matched");
   return delimiterStack -> pop();
 }
+void SyntaxChecker::makeEmpty()
+{
+  while(!delimiterStack -> isEmpty())
+    delimiterStack -> pop();
+}

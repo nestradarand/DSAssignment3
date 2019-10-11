@@ -53,6 +53,8 @@ int main(int argc, char** argv)
       else
         cout << "\nNo delimiter errors found.\nDelimiter syntax correct for: "<<fileName << endl;
     }
+    //used to clear out any remaining characters in the stack
+    checker -> makeEmpty();
     cout << "Would you like to read in another file to check its delimiters"<<endl;
     cout << "Type 'y' to continue or 'n' to stop: ";
     cin >>response;
@@ -72,7 +74,7 @@ int main(int argc, char** argv)
       cin >>fileName;
     }
   }
-
+  cout << "Program closed."<<endl;
 
   delete checker;
 }
