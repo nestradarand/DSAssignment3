@@ -13,7 +13,8 @@ int main(int argc, char** argv)
     exit(1);
   }
   SyntaxChecker *checker = new SyntaxChecker();
-  string fileName = argv[1],x;
+  string filePath = argv[1],fileName = argv[2],x;
+  string totalFile = filePath + "/" +fileName;
   char response;
   ifstream inputStream;
   bool going = true;
