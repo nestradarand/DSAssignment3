@@ -9,19 +9,25 @@ int main(int argc, char** argv)
 {
   if(!argv[1])
   {
-    cout << "No file entered. Program aborted..."<<endl;
+    cout << "No file path entered. Program aborted..."<<endl;
+    exit(1);
+  }
+  if(!argv[2])
+  {
+    cout << "No file name entered. Program aborted..."<<endl;
     exit(1);
   }
   SyntaxChecker *checker = new SyntaxChecker();
   string filePath = argv[1],fileName = argv[2],x;
-  string totalFile = filePath + "/" +fileName;
+  string totalFile;
   char response;
   ifstream inputStream;
   bool going = true;
   while(going)
   {
     bool flawed = false;
-    inputStream.open(fileName);
+    totalFile = filePath + "/" +fileName;
+    inputStream.open(totalFile);
     //ensures successful input stream established
     //reference: stack overflow
     if(!inputStream)
@@ -37,9 +43,18 @@ int main(int argc, char** argv)
       //return of zero indicates not errors were found
       if(response != '0')
       {
-        cout << "\nError found in line " << lineCount<<endl;
-        cout << "Expected: " << response << endl;
-        flawed = true;
+        if(checker ->isLeftDelimiter(response))
+        {
+          cout << "Error found in line " << lineCount <<endl;
+          cout << checker -> getOppositeDelimiter(response) << " found missing opening: "<<response <<endl;
+          flawed  = true;
+        }
+        else
+        {
+          cout << "\nError found in line " << lineCount<<endl;
+          cout << "Expected: " << response << endl;
+          flawed = true;
+        }
       }
       lineCount ++;
     }
@@ -72,7 +87,9 @@ int main(int argc, char** argv)
     else if(response  == 'y')
     {
       //prompt user for new file name to read in
-      cout << "Type the name of the file you would like to use next: " <<endl;
+      cout << "Enter the directory of the file you would like to use next: " <<endl;
+      cin >>filePath;
+      cout << "Now enter the name of the file you wish to analyze: "<<endl;
       cin >>fileName;
     }
   }
