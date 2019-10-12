@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     }
     cout << "File Successfully opened..."<<endl;
     int lineCount = 1;
-    while(inputStream >> x&& !flawed)
+    while(getline(inputStream,x) && !flawed)
     {
       response = checker -> checkLineForErrors(x);
       //return of zero indicates not errors were found
@@ -46,12 +46,14 @@ int main(int argc, char** argv)
         if(checker ->isLeftDelimiter(response))
         {
           cout << "Error found in line " << lineCount <<endl;
-          cout << checker -> getOppositeDelimiter(response) << " found missing opening: "<<response <<endl;
+          cout << x << endl;
+          cout << checker -> getOppositeDelimiter(response) << " missing opening: "<<response <<endl;
           flawed  = true;
         }
         else
         {
           cout << "\nError found in line " << lineCount<<endl;
+          cout << x<< endl;
           cout << "Expected: " << response << endl;
           flawed = true;
         }
