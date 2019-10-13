@@ -12,7 +12,7 @@ class GenStack
   int top;
   //pointers to the arrays storing data in this implementation
   T *theStack;
-  T *tempArray;
+  // T *tempArray;
 public:
   //constructors
   GenStack();
@@ -33,6 +33,7 @@ private:
   void resizeArray(T* newArray,int size);
 };
 
+//default constructor gives stack size 100
 template <typename T>
 GenStack<T>::GenStack()
 {
@@ -40,6 +41,7 @@ GenStack<T>::GenStack()
   size = 100;
   top = -1;
 }
+//int constructor takes in int argument to initialize to that size
 template <typename T>
 GenStack<T>::GenStack(int i)
 {
@@ -49,17 +51,19 @@ GenStack<T>::GenStack(int i)
   size = i;
   top = -1;
 }
+//deconstructor that deallocates memory for pointer to array
 template <typename T>
 GenStack<T>::~GenStack()
 {
   delete theStack;
-  delete tempArray;
 }
+//returns if the stack is empty
 template <typename T>
 bool GenStack<T>::isEmpty() const
 {
   return top == -1;
 }
+//adds new element to the stack
 template <typename T>
 void GenStack<T>::push(const T &object)
 {
@@ -69,6 +73,7 @@ void GenStack<T>::push(const T &object)
   }
   theStack[++top] = object;
 }
+//removes and returns the top element on the stack
 template <typename T>
 T GenStack<T>::pop()
 {
@@ -76,6 +81,7 @@ T GenStack<T>::pop()
     throw std::runtime_error("Cannot pop. Stack is empty.");
   return theStack[top--];
 }
+//returns the first element on the stack
 template <typename T>
 const T GenStack<T>::peek() const
 {
@@ -83,21 +89,24 @@ const T GenStack<T>::peek() const
     throw std::runtime_error("Cannot pop. Stack is empty.");
   return theStack[top];
 }
+//returns if the stack is full
 template <typename T>
 const bool GenStack<T>::isFull() const
 {
   return (top == size -1);
 }
+//resizes the array when called to double the initial capacity with the same elements copied over
 template <typename T>
 void GenStack<T>::resizeArray(T* newArray,int currentSize)
 {
-  tempArray = new T[currentSize*2];
+  T *tempArray = new T[currentSize*2];
   T *stackHolder = theStack;
   for(int i = 0; i<currentSize; ++i)
     tempArray[i] = newArray[i];
   theStack = tempArray;
-  delete stackHolder;
   tempArray = NULL;
+  delete stackHolder;
+  delete tempArray;
   size = currentSize *2;
 }
 

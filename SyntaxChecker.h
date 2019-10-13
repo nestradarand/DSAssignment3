@@ -3,12 +3,18 @@
 #include "GenStack.h"
 #include "SyntaxChecker.h"
 
-//meant to be used on one file at a time
+/*This class serves to analyze given lines of text for erros in delimiter usage;
+It is meant to be used to scan over an entire document with the checkLineForErrors method;
+Keeps a running tab of what delimiters have been used to determine if there are errors
+*/
 class SyntaxChecker
 {
 public:
+  //used to keep track of delimiters
   GenStack<char> *delimiterStack = new GenStack<char>(15);
+  //default constructor
   SyntaxChecker();
+  //deconstructor
   ~SyntaxChecker();
 
   //checks if given parameter is left delimiter or not
