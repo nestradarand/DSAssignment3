@@ -3,25 +3,34 @@
 
 #include <iostream>
 
+//template class to store any data type in a stack ADT
 template <typename T>
 class GenStack
 {
+  //stores how many entries can be held and the top index for access to most recently added element
   int size;
   int top;
+  //pointers to the arrays storing data in this implementation
   T *theStack;
   T *tempArray;
 public:
+  //constructors
   GenStack();
   GenStack(int i);
+  //desctructor
   ~GenStack();
-  bool isEmpty();
-  void push(T object);
+  //returns if the stack is empty
+  bool isEmpty() const;
+  //adds element to the stack
+  void push(const T &object);
+  //removes and returns the top element of the stack
   T pop();
-  T peek();
-  bool isFull();
+  //allows viewing of the top element on the stack
+  const T peek() const;
+  //returns if the stack is full
+  const bool isFull() const;
 private:
   void resizeArray(T* newArray,int size);
-  // void doubleSize();
 };
 
 template <typename T>
@@ -47,17 +56,16 @@ GenStack<T>::~GenStack()
   delete tempArray;
 }
 template <typename T>
-bool GenStack<T>::isEmpty()
+bool GenStack<T>::isEmpty() const
 {
   return top == -1;
 }
 template <typename T>
-void GenStack<T>::push(T object)
+void GenStack<T>::push(const T &object)
 {
   if(isFull())
   {
     resizeArray(theStack,size);
-    // doubleSize();
   }
   theStack[++top] = object;
 }
@@ -69,14 +77,14 @@ T GenStack<T>::pop()
   return theStack[top--];
 }
 template <typename T>
-T GenStack<T>::peek()
+const T GenStack<T>::peek() const
 {
   if(isEmpty())
     throw std::runtime_error("Cannot pop. Stack is empty.");
   return theStack[top];
 }
 template <typename T>
-bool GenStack<T>::isFull()
+const bool GenStack<T>::isFull() const
 {
   return (top == size -1);
 }
@@ -92,10 +100,5 @@ void GenStack<T>::resizeArray(T* newArray,int currentSize)
   tempArray = NULL;
   size = currentSize *2;
 }
-// template <typename T>
-// void GenStack<T>::doubleSize()
-// {
-//   size = size*2;
-// }
 
 #endif
