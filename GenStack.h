@@ -21,7 +21,7 @@ public:
   bool isFull();
 private:
   void resizeArray(T* newArray,int size);
-  void doubleSize();
+  // void doubleSize();
 };
 
 template <typename T>
@@ -57,7 +57,7 @@ void GenStack<T>::push(T object)
   if(isFull())
   {
     resizeArray(theStack,size);
-    doubleSize();
+    // doubleSize();
   }
   theStack[++top] = object;
 }
@@ -81,18 +81,21 @@ bool GenStack<T>::isFull()
   return (top == size -1);
 }
 template <typename T>
-void GenStack<T>::resizeArray(T* newArray,int size)
+void GenStack<T>::resizeArray(T* newArray,int currentSize)
 {
-  tempArray = new T[size*2];
-  for(int i = 0; i<size; ++i)
+  tempArray = new T[currentSize*2];
+  T *stackHolder = theStack;
+  for(int i = 0; i<currentSize; ++i)
     tempArray[i] = newArray[i];
   theStack = tempArray;
+  delete stackHolder;
   tempArray = NULL;
+  size = currentSize *2;
 }
-template <typename T>
-void GenStack<T>::doubleSize()
-{
-  size = size*2;
-}
+// template <typename T>
+// void GenStack<T>::doubleSize()
+// {
+//   size = size*2;
+// }
 
 #endif
