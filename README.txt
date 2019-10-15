@@ -28,4 +28,4 @@ e. learncpp.com
 3.) Ensure that any game of life files you wish to read from are in the directory as well.
 3.) Compile using make.
 4.) Run using ./Assignment3 with separate command line arguments for file path then file name including file extension.
-5.) NOTE: There is a sample text file to test on named practice.txt and otherpractice.txt.
+5.) NOTE: There is a sample text file to test on named practice.txt.
